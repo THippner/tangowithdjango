@@ -82,3 +82,25 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates')  # path to tango templates
+
+TEMPLATE_DIRS = [
+    # use forward slashes
+    # must be absolute paths
+    TEMPLATE_PATH,
+    ]
+
+STATIC_PATH = os.path.join(BASE_DIR, 'static')  # path to tango static files
+print "Static files loc: " + STATIC_PATH
+
+STATICFILES_DIRS = (STATIC_PATH,)
+
+#  MEDIA_URL = '/media/'
+#  MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # path to tango media
+
+
+# print __file__
+# print os.path.dirname(__file__)
+# print os.path.dirname(os.path.dirname(__file__))
+
