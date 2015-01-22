@@ -96,8 +96,8 @@ print "Static files loc: " + STATIC_PATH
 
 STATICFILES_DIRS = (STATIC_PATH,)
 
-#  MEDIA_URL = '/media/'
-#  MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # path to tango media
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # path to tango media
 
 
 # print __file__
