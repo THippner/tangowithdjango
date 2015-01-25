@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+
+<HTML>
+
+	<HEAD>
+		<TITLE>Rango</TITLE>	
+	</HEAD>
+	
+	<BODY>
+		<H1>{{ category_name }}</H1>
+		{% if category %}
+			{% if pages %}
+			<UL>
+				{% for page in pages %}
+				<LI><A href="{{ page.url }}">{{ page.title }}</A></LI>
+				{% endfor %}						
+			</UL>
+			{% else %}
+				<STRONG>No pages currently in category.</STRONG>
+			{% endif %}
+		{% else %}
+			The specified caregory {{ category_name }} does not exist!
+		{% endif %}
+	</BODY>
+</HTML>

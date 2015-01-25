@@ -6,6 +6,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tango_with_django_project.setti
 import django
 django.setup()
 
+import random
+
 from rango.models import Category, Page
 
 
@@ -22,7 +24,7 @@ def populate():
 
     add_page(cat=python_cat,
              title="Learn python in 10 minutes",
-             url="http://www.korokithakis.net/tutorial/python/")
+             url="http://www.korokithakis.net/tutorials/python/")
 
     django_cat = add_cat('Django')
 
@@ -63,8 +65,10 @@ def populate():
             print "- {0} - {1}".format(str(c), str(p))
 
 
-def add_page(cat, title, url, views=0):
-    p = Page.objects.get_or_create(category=cat, title=title, url=url, views=views)[0]
+def add_page(cat, title, url):
+
+    generate_views = random.randint(0, 100)
+    p = Page.objects.get_or_create(category=cat, title=title, url=url, views=generate_views)[0]
     return p
 
 

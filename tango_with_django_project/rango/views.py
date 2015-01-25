@@ -1,8 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from rango.models import Category, Page
+
 
 def index(request):
-    context_dict = {'boldmessage': "Hey! I am bold from the context."}
+    category_list = Category.objects.order_by('-likes')[:5]
+    context_dict = {'categories': category_list}
+
+    page_list = Page.objects.order_by('-views')[:5]
+    context_dict['pages'] = page_list
     return render(request, 'rango/index.html', context_dict)
 
 
@@ -10,14 +16,21 @@ def about(request):
     return render(request, 'rango/about.html')
 
 
+def category(request, category_name_slug):
 
+    context_dict = {}
 
-	# return HttpResponse(make_html("Rango says here is the about page.<BR>"
-     #                              "<A href=\"/rango/\">Back to /rango</A><BR>"
-     #                              "<BR>"
-     #                              "This tutorial has been put together by Tomasz Hippner, 2146437"))
+    try:
+        category = Category.objects.get(slug=category_name_slug)
+        context_dict['category_name'] = category.name
 
-# appends input string with html tags
-# def make_html(str):
-#     string_to_return = "<HTML><HEAD></HEAD><BODY>" + str + "</BODY></HTML>"
-#     return string_to_return
+        pages = Page.objects.filter(category=category)
+        context_dict['pages'] = pages
+
+        context_dict['category'] = category
+
+    except Category.DoesNotExist:
+        pass
+
+    return render(request, 'rango/category.html', context_dict)
+
