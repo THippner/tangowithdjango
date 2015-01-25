@@ -48,6 +48,16 @@ def populate():
              title="Flask",
              url="http://flask.pocoo.org")
 
+    my_cat = add_cat('Tomasz Hippner')
+
+    add_page(cat=my_cat,
+             title="My Github tangowithdjango repository",
+             url="https://github.com/THippner/tangowithdjango/commits/")
+
+    add_page(cat=my_cat,
+             title="My Pythonanywhere.com page",
+             url="https://www.pythonanywhere.com/user/THippner/")
+
     for c in Category.objects.all():
         for p in Page.objects.filter(category=c):
             print "- {0} - {1}".format(str(c), str(p))
@@ -58,8 +68,25 @@ def add_page(cat, title, url, views=0):
     return p
 
 
-def add_cat(name):
-    c = Category.objects.get_or_create(name=name)[0]
+def add_cat(name, views=0, likes=0):
+    c = Category.objects.get_or_create(name=name, views=views, likes=likes)[0]
+
+    if name == 'Python':
+        c.views = 128
+        c.likes = 64
+
+    elif name == 'Django':
+        c.views = 64
+        c.likes = 32
+
+    elif name == 'Other Frameworks':
+        c.views = 32
+        c.likes = 16
+
+    else:
+        pass
+
+    c.save()
     return c
 
 
