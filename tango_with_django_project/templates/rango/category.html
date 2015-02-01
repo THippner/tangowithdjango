@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 
-
 <HTML>
 
 	<HEAD>
@@ -19,6 +18,8 @@
 			{% else %}
 				<STRONG>No pages currently in category.</STRONG>
 			{% endif %}
+			<A href="/rango/category/{{ category_name_slug }}/add_page/">Add a new Page</A>
+			
 		{% else %}
 			The specified caregory {{ category_name }} does not exist!
 		{% endif %}
