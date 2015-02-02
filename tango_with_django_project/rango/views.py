@@ -1,8 +1,59 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from rango.models import Category, Page
-from rango.forms import CategoryForm
-from rango.forms import PageForm
+from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+
+
+@login_required
+def user_logout(request):
+    logout(request)
+
+    return HttpResponseRedirect('/rango/')
+
+
+def user_login(request):
+
+    context_dict = {'login_failed': False, 'user_is_active': True}
+
+    # request is http post
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        # returns user object if combination matches
+        user = authenticate(username=username, password=password)
+
+        # user exists
+        if user:
+            # user is active
+            if user.is_active:
+
+                login(request, user)
+                return HttpResponseRedirect('/rango/')
+
+            # account is not active
+            else:
+                context_dict['user_is_active'] = False
+
+                return render(request, 'rango/login.html', context_dict)
+
+        # invalid details
+        else:
+            print "Invalid login details: {0}, {1}" .format(username, password)
+            context_dict['login_failed'] = True
+
+            return render(request, 'rango/login.html', context_dict)
+
+    # not http post
+    else:
+        return render(request, 'rango/login.html', context_dict)
+
+
+@login_required
+def restricted(request):
+    return HttpResponse("Since you're logged in you can see this text!")
 
 
 def index(request):
@@ -38,6 +89,7 @@ def category(request, category_name_slug):
     return render(request, 'rango/category.html', context_dict)
 
 
+@login_required
 def add_category(request):
     # A HTTP POST?
     if request.method == 'POST':
@@ -66,6 +118,7 @@ def add_category(request):
     return render(request, 'rango/add_category.html', {'form': form})
 
 
+@login_required
 def add_page(request, category_name_slug):
 
     try:
@@ -97,3 +150,69 @@ def add_page(request, category_name_slug):
     context_dict = {'form': form, 'category': cat, 'category_name_slug': category_name_slug}
 
     return render(request, 'rango/add_page.html', context_dict)
+
+
+def register(request):
+    registered = False
+
+    # if request is a http POST
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        profile_form = UserProfileForm(data=request.POST)
+
+        # if forms are valid
+        if user_form.is_valid() and profile_form.is_valid():
+
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+
+            profile = profile_form.save(commit=False)
+            profile.user = user
+
+            # was picture supplied
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
+            profile.save()
+
+            registered = True
+
+        # errors in forms
+        else:
+            print user_form.errors, profile_form.errors
+
+    # not a http POST
+    else:
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+
+    # render response
+    return render(request,
+                  'rango/register.html',
+                  {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

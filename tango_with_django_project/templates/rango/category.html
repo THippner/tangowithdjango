@@ -18,7 +18,11 @@
 			{% else %}
 				<STRONG>No pages currently in category.</STRONG>
 			{% endif %}
+			
+			<!-- For Logged in Users -->
+			{% if user.is_authenticated %}
 			<A href="/rango/category/{{ category_name_slug }}/add_page/">Add a new Page</A>
+			{% endif %}
 			
 		{% else %}
 			The specified caregory {{ category_name }} does not exist!

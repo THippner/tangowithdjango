@@ -9,7 +9,12 @@
 	</HEAD>
 	
 	<BODY><CENTER>
-		<H1>Rango says... hello world!</H1>
+		{% if user.is_authenticated %}
+		<H1>Rango says... hello {{ user.username }}!</H1>
+		{% else %}
+		<H1>Rango says... hello Stranger!</H1>
+		<H3>Please Login or Register to see all features!</H3>
+		{% endif %}
 		
 		<TABLE>
 			<TR>
@@ -45,11 +50,32 @@
 		<BR>
 		<TABLE>
 			<TR>
-				<TD><A href="/rango/add_category/">Add a New Category</A></TD>
-				<TD><A href="/rango/about">About</A><BR></TD>
+				<!-- For Logged in Users -->				
+				{% if user.is_authenticated %}				
+				<TD><A href="/rango/logout/">Logout</A></TD>
+				
+				<!-- For not logged in Users -->			
+				{% else %}
+				<TD><A href="/rango/login/">Login</A></TD>
+				<TD><A href="/rango/register/">Register</A></TD>
+				{% endif %}
+				
+				<!-- For All Users -->
+				<TD><A href="/rango/about/">About</A><BR></TD>
 			</TR>
-		</TABLE>		
-		<BR>		
+		</TABLE>
+		
+		<!-- For Logged in Users Only-->
+		{% if user.is_authenticated %}
+		</TABLE>
+			<TR>				
+				<TD><A href="/rango/add_category/">Add a New Category</A></TD>
+				<TD><A href="/rango/restricted/">Restricted Page</A></TD>				
+			</TR>			
+		</TABLE>
+		{% endif %}	
+			
+		<BR><BR>		
 		<IMG src="{% static "images/milka.jpg" %}" width="30%" alt="Picture of Milka"/>
 		
 		
