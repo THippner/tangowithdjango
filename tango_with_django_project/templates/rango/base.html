@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+
+<HTML>
+	<HEAD lang="en">		
+		<META charset="UTF-8">
+		<TITLE>Rango - {% block title %}How to Tango width Django!{% endblock %}</TITLE>	
+	</HEAD>
+	
+	<BODY bgcolor="#AD6BEB">		
+		<DIV>
+			<CENTER>
+				<A href="{% url 'index' %}">
+				{% if user.is_authenticated %}
+				<H1>Rango says... hello {{ user.username }}!</H1>
+				{% else %}
+				<H1>Rango says... hello Stranger!</H1>
+				<H3>Please Login or Register to see all features!</H3>
+				{% endif %}
+				</A>
+			</CENTER>
+		</DIV>	
+		<HR>
+			
+		<DIV style="background-color:#D0AAF3">
+			<BR><BR>
+			
+			{% block body_block %}{% endblock %}			
+		
+			<BR><CENTER><A href="{% url 'index' %}">Back</A></CENTER><BR><BR>	
+		</DIV>
+		
+		<HR>		
+		<DIV>
+			<CENTER>				
+				<!-- For Logged in Users Only-->
+				{% if user.is_authenticated %}
+				<TABLE>
+					<TR>				
+						<TD><A href="{% url 'add_category' %}">Add a New Category</A></TD>
+						<TD><A href="{% url 'restricted' %}">Restricted Page</A></TD>				
+					</TR>			
+				</TABLE>
+				{% endif %}	
+								
+				<TABLE>
+					<TR>
+						<!-- For Logged in Users -->				
+						{% if user.is_authenticated %}				
+						<TD><A href="{% url 'logout' %}">Logout</A></TD>
+						
+						<!-- For Users ot logged in -->			
+						{% else %}
+						<TD><A href="{% url 'login' %}">Login</A></TD>
+						<TD><A href="{% url 'register' %}">Register</A></TD>
+						{% endif %}
+						
+						<!-- For All Users -->
+						<TD><A href="{% url 'about' %}">About</A><BR></TD>
+					</TR>
+				</TABLE>			
+				
+				<BR>		
+				<IMG src="{% static "images/milka.jpg" %}" width="30%" alt="Picture of Milka"/>	
+			</CENTER>
+		</DIV>
+		
+	</BODY>
+</HTML>

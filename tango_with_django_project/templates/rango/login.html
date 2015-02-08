@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Rango</title>
-    </head>
+{% extends 'rango/base.html' %}
 
-    <body>
+{% block title %}Log in to Rango{% endblock %}
+
+
+{% block body_block %}
 		<CENTER>
-        <h1>Login to Rango</h1>
-
+		<BR>
         <form id="login_form" method="post" action="/rango/login/">
 
             {% csrf_token %}            
@@ -31,6 +29,7 @@
         {% elif login_failed %}
         <FONT color="red">Provided Username/Login did not match. Please try again.</FONT>
         {% endif %}
+        
         </CENTER>
-    </body>
-</html>
+
+{% endblock %}

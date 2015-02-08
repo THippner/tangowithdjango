@@ -1,89 +1,40 @@
-<!DOCTYPE html>
+{% extends 'rango/base.html' %}
 
 {% load staticfiles %}
 
-<HTML>
 
-	<HEAD>
-		<TITLE>Rango</TITLE>	
-	</HEAD>
-	
-	<BODY><CENTER>
-		{% if user.is_authenticated %}
-		<H1>Rango says... hello {{ user.username }}!</H1>
-		{% else %}
-		<H1>Rango says... hello Stranger!</H1>
-		<H3>Please Login or Register to see all features!</H3>
-		{% endif %}
-		
-		<TABLE>
-			<TR>
-				<TH>Top Categories</TH>
-				<TH>Top Pages</TH>
-			</TR>
-			<TR>
-				<TD>
-				 {% if categories %}
-					<UL>
-						{% for category in categories %}
-						<LI><A href="/rango/category/{{ category.slug}}">{{ category.name }}</A></LI>
-						{% endfor %}			
-					</UL>
-				{% else %}
-					<STRONG>There are no categories present</STRONG>
-				{% endif %}
-				</TD>
-				<TD>
-				{% if pages %}
-					<OL>
-						{% for page in pages %}
-						<LI><A href="{{ page.url }}">{{ page.title }} [{{ page.views }}]</A></LI>
-						{% endfor %}
-					</OL>
-				{% else %}
-					<STRONG>There are no pages present</STRONG>
-				{% endif %}
-				
-				</TD>
-			</TR>
-		</TABLE>
-		<BR>
-		<TABLE>
-			<TR>
-				<!-- For Logged in Users -->				
-				{% if user.is_authenticated %}				
-				<TD><A href="/rango/logout/">Logout</A></TD>
-				
-				<!-- For not logged in Users -->			
-				{% else %}
-				<TD><A href="/rango/login/">Login</A></TD>
-				<TD><A href="/rango/register/">Register</A></TD>
-				{% endif %}
-				
-				<!-- For All Users -->
-				<TD><A href="/rango/about/">About</A><BR></TD>
-			</TR>
-		</TABLE>
-		
-		<!-- For Logged in Users Only-->
-		{% if user.is_authenticated %}
-		</TABLE>
-			<TR>				
-				<TD><A href="/rango/add_category/">Add a New Category</A></TD>
-				<TD><A href="/rango/restricted/">Restricted Page</A></TD>				
-			</TR>			
-		</TABLE>
-		{% endif %}	
+{% block body_block %}
+	<TABLE align="center">
+		<TR>
+			<TH>Top Categories</TH>
+			<TH>Top Pages</TH>
+		</TR>
+		<TR>
+			<TD>
+			 {% if categories %}
+				<UL>
+					{% for category in categories %}
+					<LI><A href="/rango/category/{{ category.slug}}">{{ category.name }}</A></LI>
+					{% endfor %}			
+				</UL>
+			{% else %}
+				<STRONG>There are no categories present</STRONG>
+			{% endif %}
+			</TD>
+			<TD>
+			{% if pages %}
+				<OL>
+					{% for page in pages %}
+					<LI><A href="{{ page.url }}" target="_blank">{{ page.title }} [{{ page.views }}]</A></LI>
+					{% endfor %}
+				</OL>
+			{% else %}
+				<STRONG>There are no pages present</STRONG>
+			{% endif %}
 			
-		<BR><BR>		
-		<IMG src="{% static "images/milka.jpg" %}" width="30%" alt="Picture of Milka"/>
-		
-		
-	
-	</CENTER></BODY>
+			</TD>
+		</TR>
+	</TABLE>
+{% endblock %}	
 
 
-
-
-
-</HTML>

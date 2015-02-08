@@ -1,31 +1,32 @@
-<!DOCTYPE html>
+{% extends 'rango/base.html' %}
 
-<HTML>
+{% load staticfiles %}
 
-	<HEAD>
-		<TITLE>Rango</TITLE>	
-	</HEAD>
-	
-	<BODY>
-		<H1>{{ category_name }}</H1>
-		{% if category %}
-			{% if pages %}
-			<UL>
-				{% for page in pages %}
-				<LI><A href="{{ page.url }}">{{ page.title }}</A></LI>
-				{% endfor %}						
-			</UL>
-			{% else %}
-				<STRONG>No pages currently in category.</STRONG>
-			{% endif %}
-			
-			<!-- For Logged in Users -->
-			{% if user.is_authenticated %}
-			<A href="/rango/category/{{ category_name_slug }}/add_page/">Add a new Page</A>
-			{% endif %}
-			
+{% block title %}{{ category_name }}{% endblock %}
+
+
+{% block body_block %}
+
+	<H1>{{ category_name }}</H1>
+	{% if category %}
+		{% if pages %}
+		<UL>
+			{% for page in pages %}
+			<LI><A href="{{ page.url }}">{{ page.title }}</A></LI>
+			{% endfor %}						
+		</UL>
 		{% else %}
-			The specified caregory {{ category_name }} does not exist!
+			<STRONG>No pages currently in category.</STRONG>
 		{% endif %}
-	</BODY>
-</HTML>
+		
+		<!-- For Logged in Users -->
+		{% if user.is_authenticated %}
+		<A href="/rango/category/{{ category_name_slug }}/add_page/">Add a new Page</A>
+		{% endif %}
+		
+	{% else %}
+		The specified category {{ category_name }} does not exist!
+	{% endif %}
+	
+{% endblock %}
+

@@ -53,7 +53,7 @@ def user_login(request):
 
 @login_required
 def restricted(request):
-    return HttpResponse("Since you're logged in you can see this text!")
+    return render(request, 'rango/restricted.html')
 
 
 def index(request):
@@ -101,7 +101,7 @@ def add_category(request):
             form.save(commit=True)
 
             # print new category in terminal
-            print "New Category added: \"" + str(cat) + "\", slug: \"" + str(cat.slug)
+            # print "New Category added: \"" + str(cat) + "\", slug: \"" + str(cat.slug)
 
             # Now call the index() view.
             # The user will be shown the homepage.
