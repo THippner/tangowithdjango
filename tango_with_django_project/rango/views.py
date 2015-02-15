@@ -4,6 +4,7 @@ from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from datetime import datetime
 
 
 @login_required
@@ -62,11 +63,44 @@ def index(request):
 
     page_list = Page.objects.order_by('-views')[:5]
     context_dict['pages'] = page_list
-    return render(request, 'rango/index.html', context_dict)
+
+    # visits counter
+    visits = request.session.get('visits')
+    if not visits:
+        visits = 1
+    reset_last_visit_time = False
+
+    last_visit = request.session.get('last_visit')
+
+    if last_visit:
+        # if last visit exist
+
+        last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
+
+        if (datetime.now() - last_visit_time).seconds > 5:  # .days > 0:
+            # if more than 24h passed
+            visits += 1
+            reset_last_visit_time = True
+    else:
+        # no last visit in cookie
+        reset_last_visit_time = True
+
+    if reset_last_visit_time:
+        request.session['last_visit'] = str(datetime.now())
+        request.session['visits'] = visits
+
+    context_dict['visits'] = visits
+    response = render(request, 'rango/index.html', context_dict)
+
+    return response
 
 
 def about(request):
-    return render(request, 'rango/about.html')
+    visits = request.session.get('visits')
+    if not visits:
+        visits = 1
+
+    return render(request, 'rango/about.html', {'visits': visits})
 
 
 def category(request, category_name_slug):
@@ -153,6 +187,7 @@ def add_page(request, category_name_slug):
 
 
 def register(request):
+
     registered = False
 
     # if request is a http POST
