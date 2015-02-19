@@ -48,12 +48,12 @@
 					<TR>
 						<!-- For Logged in Users -->				
 						{% if user.is_authenticated %}				
-						<TD><A href="{% url 'logout' %}">Logout</A></TD>
+						<TD><A href="{% url 'auth_logout' %}?next=/rango/">Logout</A></TD>
 						
 						<!-- For Users ot logged in -->			
 						{% else %}
-						<TD><A href="{% url 'login' %}">Login</A></TD>
-						<TD><A href="{% url 'register' %}">Register</A></TD>
+						<TD><A href="{% url 'auth_login' %}">Login</A></TD>
+						<TD><A href="{% url 'registration_register' %}">Register</A></TD>
 						{% endif %}
 						
 						<!-- For All Users -->
