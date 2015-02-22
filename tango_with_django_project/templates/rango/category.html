@@ -23,9 +23,14 @@
 			<CENTER><STRONG>No pages currently in category.</STRONG></CENTER>
 		{% endif %}
 		
-		<!-- For Logged in Users -->
-		{% if user.is_authenticated %}
-		<CENTER><A href="/rango/category/{{ category_name_slug }}/add_page/">Add a new Page</A></CENTER>
+			<!-- For Logged in Users -->
+			{% if user.is_authenticated %}
+			<CENTER>
+				<BR>				
+				<A href="/rango/category/{{ category_name_slug }}/add_page/">
+					<button class="btn btn-primary" type="submit" name="submit">Add Page</button>
+				</A>				
+			</CENTER>
 		{% endif %}
 		
 	{% else %}

@@ -4,39 +4,70 @@
 
 
 {% block body_block %}
-	<TABLE align="center">
-		<TR>
-			<TH>Top Categories</TH>
-			<TH>Top Pages</TH>
-		</TR>
-		<TR>
-			<TD>
-			 {% if categories %}
-				<UL>
-					{% for category in categories %}
-					<LI><A href="/rango/category/{{ category.slug}}">{{ category.name }}</A></LI>
-					{% endfor %}			
-				</UL>
-			{% else %}
-				<STRONG>There are no categories present</STRONG>
-			{% endif %}
-			</TD>
-			<TD>
-			{% if pages %}
-				<OL>
-					{% for page in pages %}
-					<LI><A href="{{ page.url }}" target="_blank">{{ page.title }} [{{ page.views }}]</A></LI>
-					{% endfor %}
-				</OL>
-			{% else %}
-				<STRONG>There are no pages present</STRONG>
-			{% endif %}
-			
-			</TD>
-		</TR>
-	</TABLE>
-	<BR><BR>
-	<CENTER><P>Visits: {{ visits }}</P></CENTER>
+
+	<div align="center" class="page-header">
+		{% if user.is_authenticated %}	
+			<H1>Rango says... hello {{ user.username }}!</H1>
+		{% else %}
+			<H1>Rango says... hello Stranger!</H1>
+			<H3>Please Login or Register to see all features!</H3>
+		{% endif %}		
+	</div>	
+	
+
+
+	<div class="row placeholders">		
+			<div class="col-xs-12 col-sm-6 placeholder">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="panel panel-primary">				
+							<div class="panel-heading"><h4 class="panel-title">Top Categories</h4></div>
+						</div>
+						{% if categories %}						
+							<UL class="list-group">
+								{% for category in categories %}
+								<LI class="list-group-item"><A href="/rango/category/{{ category.slug}}">{{ category.name }}</A></LI>
+								{% endfor %}			
+							</UL>
+							
+						{% else %}
+							<STRONG>There are no categories present</STRONG>
+						{% endif %}
+				</div>
+			</div>
+		</div>
+	
+	
+		<div class="col-xs-12 col-sm-6 placeholder">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel panel-primary">
+						<div class="panel-heading"><h4 class="panel-title">Top Pages</h4></div>
+					</div>
+					{% if pages %}
+						<UL class="list-group">
+							{% for page in pages %}
+							<LI class="list-group-item"><A href="{{ page.url }}" target="_blank">{{ page.title }}</A>
+								<span class="badge">Views: {{ page.views }}</span>
+							</LI>
+							{% endfor %}
+						</UL>
+					{% else %}
+						<STRONG>There are no pages present</STRONG>
+					{% endif %}
+				</div>
+			</div>	
+		</div>
+	</div>	
+	
+	<div class="row">
+		<div class="col-md-2 col-md-offset-5">
+			<div class="panel panel-default">
+				<div class="panel-heading"><CENTER>Visits: {{ visits }}</CENTER></div>
+			</div>
+		</div>
+	</div>
+		
 {% endblock %}	
 
 
