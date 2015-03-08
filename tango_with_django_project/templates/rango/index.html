@@ -47,7 +47,7 @@
 					{% if pages %}
 						<UL class="list-group">
 							{% for page in pages %}
-							<LI class="list-group-item"><A href="{{ page.url }}" target="_blank">{{ page.title }}</A>
+							<LI class="list-group-item"><A href="{% url 'goto' %}?page_id={{page.id}}" target = "_blank">{{ page.title }}</A>
 								<span class="badge">Views: {{ page.views }}</span>
 							</LI>
 							{% endfor %}
@@ -63,7 +63,9 @@
 	<div class="row">
 		<div class="col-md-2 col-md-offset-5">
 			<div class="panel panel-default">
-				<div class="panel-heading"><CENTER>Visits: {{ visits }}</CENTER></div>
+				<div class="panel-heading">
+					<CENTER>
+						Visits: {{ visits }}</CENTER></div>
 			</div>
 		</div>
 	</div>

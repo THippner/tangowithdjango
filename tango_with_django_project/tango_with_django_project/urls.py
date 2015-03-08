@@ -9,7 +9,7 @@ from registration.backends.simple.views import RegistrationView
 # Registration View Override
 class MyRegistrationView(RegistrationView):
     def get_success_url(selfself,request, user):
-        return '/rango/'
+        return '/rango/profile_registration/'
 
 
 
